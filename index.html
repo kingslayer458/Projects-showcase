@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden; /* Prevent horizontal scroll on animations */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            padding: 0 20px;
+            margin: 0 auto;
+        }
+
+        /* Title Styles */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 1s ease-out; /* Fade in from top animation */
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--toggle-bg);
+            color: var(--toggle-color);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            animation: fadeIn 1s ease-out; /* Fade in animation */
+        }
+
+        /* Grid Styles */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+            width: 100%;
+            animation: fadeIn 1s ease-out; /* Fade in animation */
+        }
+
+        /* Project Card Styles */
+        .project-card {
+            border: 1px solid var(--card-border-color);
+            border-radius: 20px; /* Increased for a softer look */
+            padding: 30px; /* Increased for better spacing */
+            background: var(--card-bg);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Stronger shadow */
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* More natural transition */
+            overflow: hidden;
+            position: relative;
+            opacity: 0; /* Start hidden for animation */
+            animation: slideIn 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; /* Slide in animation */
+            /* Add animation-delay to each card */
+        }
+
+        .project-card:nth-child(odd) {
+            animation-delay: 0.2s;
+        }
+
+        .project-card:nth-child(even) {
+            animation-delay: 0.4s;
+        }
+
+        /* Hover Effects */
+        .project-card:hover {
+            transform: scale(1.05); /* Slightly enlarge on hover */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+            /* Add a subtle glowing effect */
+            background: var(--card-bg);
+            /* background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0)); */
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: calc(100% + 20px);
+            height: calc(100% + 20px);
+            background: linear-gradient(135deg, rgba(66, 165, 245, 0.2), rgba(13, 169, 255, 0.2));  /* Gradient highlight */
+            border-radius: 20px; /* Match card radius */
+            opacity: 0;
+            z-index: -1; /* Behind the card */
+            transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .project-card:hover::before {
+            opacity: 1; /* Show gradient highlight on hover */
+        }
+
+
+        /* Title Styles */
+        h3 {
+            color: var(--title-color);
+            font-size: 1.8rem; /* Slightly larger title */
+            margin-bottom: 15px;
+            transition: color 0.2s ease;
+        }
+
+        .project-card:hover h3 {
+            color: #007bff;
+            text-shadow: 1px 1px 2px rgba(0, 123, 255, 0.3); /* Add subtle glow */
+        }
+
+        /* Description Styles */
+        p {
+            color: var(--text-color);
+            line-height: 1.7; /* Slightly more space */
+            margin-bottom: 20px;
+        }
+
+        /* Link Styles */
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 600; /* Slightly bolder link */
+            transition: color 0.2s ease, transform 0.2s ease;
+            display: inline-block; /* Allow transform */
+        }
+
+        a:hover {
+            color: #0056b3;
+            transform: translateX(5px); /* Slight movement on hover */
+        }
+
+        /* Icon Styles */
+        h3::before {
+            margin-right: 10px; /* Increased spacing */
+            vertical-align: middle;
+            font-size: 1.4rem; /* Larger icon */
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px); /* Slide in from left */
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+
+        /* Dark Mode Styles (Default: Light Mode) */
+        :root {
+            --bg-color: #f9f9f9;
+            --text-color: #333;
+            --card-bg: #fff;
+            --card-border-color: #e0e0e0;
+            --title-color: #333;
+            --toggle-bg: #ddd;
+            --toggle-color: #333;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            --bg-color: #121212;
+            --text-color: #f0f0f0;
+            --card-bg: #252525;
+            --card-border-color: #444;
+            --title-color: #f0f0f0;
+            --toggle-bg: #333;
+            --toggle-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" aria-label="Toggle Theme">💡</button>
+
+    <div class="container">
+        <h1>Projects</h1>
+        <div class="project-grid">
+            <!-- Project Cards (Same as before) -->
+            <div class="project-card">
+                <h3>🎥 KINGPLAY VIDEO STREAMER</h3>
+                <p>A JavaScript-based video streaming platform.</p>
+                <a href="https://github.com/kingslayer458/KINGPLAY-VIDEO-STREAMER">View Project →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>🔐 SSH Login Using Brute Force</h3>
+                <p>A Python project demonstrating SSH brute-force attacks for security testing.</p>
+                <a href="https://github.com/kingslayer458/SSH-login-using-brute-force">View Project →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>🕵️ SSH Honeypot with Web-Based Log Viewer</h3>
+                <p>A Python honeypot system that logs SSH attack attempts with a web interface.</p>
+                <a href="https://github.com/kingslayer458/SSH-Honeypot-with-Web-Based-Log-Viewer">View Project →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>🎮 Game Searcher Using Steam API</h3>
+                <p>A JavaScript tool to search for games using the Steam API.</p>
+                <a href="https://github.com/kingslayer458/game-searcher-using-steam-api">View Project →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>🔍 Steam Game Searcher</h3>
+                <p>A JavaScript-based game searcher using the RAWG API.</p>
+                <a href="https://github.com/kingslayer458/steam-game-searcher">View Project →</a>
+            </div>
+
+
+            <div class="project-card">
+                <h3>🏠 Hostel Management System</h3>
+                <p>A Python-based hostel management system.</p>
+                <a href="https://github.com/kingslayer458/hostel-management-system">View Project →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>💣 Fork Bomb</h3>
+                <p>A Python script demonstrating a fork bomb attack.</p>
+                <a href="https://github.com/kingslayer458/fork-bomb">View Project →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>📂 File Sharing System</h3>
+                <p>A file-sharing system built with HTML.</p>
+                <a href="https://github.com/kingslayer458/file-sharing-system">View Project →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>🌤️ Weather Application</h3>
+                <p>A JavaScript-based weather application.</p>
+                <a href="https://github.com/kingslayer458/weather-application">View Project →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>📝 Personal Portfolio</h3>
+                <p>A final version of my personal HTML portfolio.</p>
+                <a href="https://github.com/kingslayer458/personal-portfolio">View Project →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>🎮 Red Dead Redemption 2 Wallpaper Website</h3>
+                <p>An HTML website dedicated to RDR2 wallpapers.</p>
+                <a href="https://github.com/kingslayer458/RED-DEAD-REDEMPTION-2-WALLPAPER-WEBSITE">View Project →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>🎶 Lana Del Rey Radio</h3>
+                <p>A radio project featuring Lana Del Rey's music.</p>
+                <a href="https://github.com/kingslayer458/lana-del-ray">View Project →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>🚨 Cowrie Honeypot Alert Using Nodemailer and Twilio</h3>
+                <p>A JavaScript-based SSH honeypot alert system.</p>
+                <a href="https://github.com/kingslayer458/Cowrie-Honeypot-Alert-Using-Nodemailer-And-Twilio">View Project →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>🤖 SSH Honeypot with Machine Learning</h3>
+                <p>A Python honeypot system that uses machine learning for analysis.</p>
+                <a href="https://github.com/kingslayer458/Ssh-Honeypot-With-Machine-Learning">View Project →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>💬 Real-Time Chat App with Socket.IO</h3>
+                <p>A real-time chat application using Socket.IO.</p>
+                <a href="https://github.com/kingslayer458/A-Real-time-Chat-App-with-Socket.IO">View Project →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>📊 Enhanced GitHub Activity Viewer using GitHub API</h3>
+                <p>A tool to view GitHub activity in an enhanced format.</p>
+                <a href="https://github.com/kingslayer458/Enhanced-GitHub-Activity-Viewer-using-github-api">View Project →</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dark Mode Toggle (Same as before)
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const isDarkMode = body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+            themeToggle.textContent = isDarkMode ? '💡' : '💡';
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                body.classList.add('dark-mode');
+                themeToggle.textContent = '💡';
+            }
+        });
+    </script>
+</body>
+</html>
